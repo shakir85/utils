@@ -1,3 +1,6 @@
+# ------------------------
+# Install figlet first!
+# ------------------------
 # Print system info on shell opening
 # add to bash profile
 # tested on Ubuntu on Fedora
