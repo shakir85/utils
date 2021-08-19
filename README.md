@@ -1,2 +1,1 @@
-
-Managing home lab machines and other stuff
+Homelab machines config files (and potentially other scripts/stuff).
