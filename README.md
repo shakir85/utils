@@ -1,2 +1,2 @@
-and other stuff
-Managing home lab machines
+
+Managing home lab machines and other stuff
