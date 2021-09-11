@@ -1,1 +1,1 @@
-Homelab machines config files (and potentially other scripts/stuff).
+Config files (and potentially other scripts/stuff/junk).
