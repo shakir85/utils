@@ -1,0 +1,18 @@
+# Shakir's stuff
+shopt -s extglob
+
+OS_ICON=
+
+## Shakir's aliases
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+
+command -v lsd > /dev/null && alias ls='lsd --group-dirs first'
+command -v lsd > /dev/null && alias tree='lsd --tree'
+
+# Export go bin
+export PATH=$PATH:/usr/local/go/bin
+
