@@ -7,7 +7,7 @@ echo "######################################"
 # Stop snap deamon
 systemctl stop snapd
 
-# Package clean up
+# snapd package removal
 apt-mark hold snapd
 apt autoremove --purge -y snapd gnome-software-plugin-snap
 
@@ -22,3 +22,5 @@ rm -rf /var/lib/snapd
 systemctl daemon-reload
 
 echo "Done."
+
+# Enjoy lean and clean Ubuntu.
