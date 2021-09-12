@@ -4,7 +4,8 @@
 # ssh setup for local network only.
 
 dnf upgrade -y
-dnf install -y net-tools iptables
+dnf install -y epel-release
+dnf install -y net-tools iptables htop vim
 
 systemctl enable sshd
 sleep 5
