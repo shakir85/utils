@@ -1,0 +1,4 @@
+# Proxmox free version source list.
+# Remove the original source list.
+# Add /etc/apt/sources.list.d/pve-no-subscription.list 
+deb http://download.proxmox.com/debian/pve buster pve-no-subscription
