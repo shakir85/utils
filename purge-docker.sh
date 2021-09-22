@@ -36,7 +36,7 @@ COMPOSE_BIN=/usr/local/bin/docker-compose
 if [[ -f "$COMPOSE_BIN" ]]; then
     echo "$COMPOSE_BIN exists..."
     echo "Delete Docker compose..."
-    /usr/local/bin/docker-compose
+    rm -rf /usr/local/bin/docker-compose
 fi
 
 echo "Done."
