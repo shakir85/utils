@@ -16,3 +16,5 @@ command -v lsd > /dev/null && alias tree='lsd --tree'
 # Export go bin
 export PATH=$PATH:/usr/local/go/bin
 
+# Let minikube know about the local images
+eval $(minikube docker-env)
