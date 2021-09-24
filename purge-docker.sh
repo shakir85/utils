@@ -1,12 +1,20 @@
 #!/bin/bash
 
 if [ "$EUID" -ne 0 ]
-  then echo "You need to run as root ... exiting."
+  then echo "You need to run as root... exiting."
   exit
 fi
 
+echo "Check Docker service in systemd..."
 
-echo "Available Docker packages:"
+CHECK_SYSD=$(systemctl list-units | grep docker)
+if [[ ! -z $CHECK_SYSD ]] ; then
+  systemctl stop docker.service
+else
+  echo "Docker service seems to be inactice..."
+fi
+
+echo "Looking for available Docker packages... "
 
 PKGS=$(dpkg -l | awk '{ print $2 }' |  grep ^docker)
 
@@ -17,26 +25,28 @@ IFS=' ' read -r -a pkgs_array <<< "$PKGS"
 echo "Delete Docker packages..."
 for pkg in "${pkgs_array[@]}"
 do
-    sudo apt purge -y "$pkg"
+    apt purge -y "$pkg"
 done
 
-echo "Delete Docker directories"
 rm -rf /var/lib/docker 
 rm -rf /etc/docker
 rm -rf /etc/apparmor.d/docker
+echo "Docker directories deleted."
 
-echo "Delete Docker socket..."
 sudo rm -rf /var/run/docker.sock
+echo "Docker socket deleted."
 
-echo "Delete Docker group..."
 groupdel docker
+echo "Docker group deleted."
 
-echo "Check if compose binay available"
+echo "Check if compose binary installed..."
 COMPOSE_BIN=/usr/local/bin/docker-compose
 if [[ -f "$COMPOSE_BIN" ]]; then
     echo "$COMPOSE_BIN exists..."
-    echo "Delete Docker compose..."
     /usr/local/bin/docker-compose
+    echo "Docker compose delete."
+    else
+    echo "No docker compose installed."
 fi
 
 echo "Done."
