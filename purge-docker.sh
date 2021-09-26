@@ -43,10 +43,15 @@ echo "Check if compose binary installed..."
 COMPOSE_BIN=/usr/local/bin/docker-compose
 if [[ -f "$COMPOSE_BIN" ]]; then
     echo "$COMPOSE_BIN exists..."
+<<<<<<< HEAD
     /usr/local/bin/docker-compose
     echo "Docker compose delete."
     else
     echo "No docker compose installed."
+=======
+    echo "Delete Docker compose..."
+    rm -rf /usr/local/bin/docker-compose
+>>>>>>> 6b59ffc7e58b2f87d77fdc4196404d42c1c76f46
 fi
 
 echo "Done."

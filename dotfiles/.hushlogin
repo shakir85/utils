@@ -1,2 +1,3 @@
-# Supress Ubuntu server login message
-# Add this to your $HOME
+# An empty file to supress Ubuntu server login message
+# Add this file to your $HOME
+# Example: `~$ touch .hushlogin`
