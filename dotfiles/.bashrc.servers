@@ -52,7 +52,10 @@ function LoggedInUsers () {
     # sort  and  uniq  to remove duplicate users
     # last sed is to trim/prevent printing whitespaces
     TTY_USERS=$(w | awk '(NR>2) { print $1 }' | sort | uniq | sed '/^[[:space:]]*$/d')
-    TTY_IP=$(w | awk '(NR>2) { print $3 }' | sort | uniq | sed '/^[[:space:]]*$/d')
+    
+    # I'm using echo to utilize -n and -e to force printing mutiline stdout in a single line 
+    # because if there're 2+ users logged in, there'd be 2 IP address sent to stdout from 'w' command
+    TTY_IP=$(echo -n -e $(w | awk '(NR>2) { print $3 }' | sort | uniq | sed '/^[[:space:]]*$/d'))
     
     echo -e -n $ColorReset"➜ [$Bold$Dim$ColorReset$Normal$Blue $TTY_USERS$ColorReset$Dim from $Blue$TTY_IP$ColorReset ]"
 }
