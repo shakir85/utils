@@ -54,7 +54,8 @@ function LoggedInUsers () {
     TTY_USERS=$(w | awk '(NR>2) { print $1 }' | sort | uniq | sed '/^[[:space:]]*$/d')
     
     # I'm using echo to utilize -n and -e to force printing mutiline stdout in a single line 
-    # because if there're 2+ users logged in, there'd be 2 IP address sent to stdout from 'w' command
+    # because if there're 2+ users logged in, there'd be 2 IP addresses sent out to stdout from the 'w' command
+    # ->> awk explanation: skip two headers, print third column, sort, get unique IPs, trim space lines
     TTY_IP=$(echo -n -e $(w | awk '(NR>2) { print $3 }' | sort | uniq | sed '/^[[:space:]]*$/d'))
     
     echo -e -n $ColorReset"➜ [$Bold$Dim$ColorReset$Normal$Blue $TTY_USERS$ColorReset$Dim from $Blue$TTY_IP$ColorReset ]"
