@@ -73,9 +73,9 @@ function LoggedInUsers () {
 }
 
 function serviceStatus () {
-    SERVICE_STATUS=$(systemctl is-active "$1")
+    IS_ACTIVE=$(systemctl is-active "$1")
     IS_RUNNING=$(systemctl show -p SubState --value "$1")
-    if [ "$SERVICE_STATUS" = "active" ] ; then
+    if [ "$IS_ACTIVE" = "active" ] ; then
     echo -e -n "$ColorReset""➜ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset$Dim active "
 
         case $IS_RUNNING in
@@ -84,7 +84,7 @@ function serviceStatus () {
             *) echo -e -n "Error loading service" ;;
         esac
 
-    elif [ "$SERVICE_STATUS" = "inactive" ] ; then
+    elif [ "$IS_ACTIVE" = "inactive" ] ; then
         echo -e -n "$ColorReset""➜ [$Bold$Blue $1$ColorReset$Normal $Red ✗ $ColorReset inactive ] "
 
     else
