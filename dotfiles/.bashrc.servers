@@ -1,87 +1,98 @@
 ## Print Info ####################
 ##################################
-
-# Old PS1
-# export PS1="\e[1;34m[\e[1;33m\u@\e[1;32m\h\e[1;37m:\w\[\e[1;34m]\e[1;36m\\$ \e[0m"export PS1="\e[1;34m[\e[1;33m\u@\e[1;32m\h\e[1;37m:\w\[\e[1;34m]\e[1;36m\\$ \e[0m"
-
+# TODO: Remove unused color variables
+OS=$(lsb_release -si)
+OS_RELEASE=$(lsb_release -sc)
+OS_VERSION=$(cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17)
+KERNEL=$(uname -r)
+UPTIME=$(uptime -p | sed 's/up//')
+HOST=$(hostname)
 ColorReset='\e[0m'
 Red='\033[0;31m'
 Green='\033[0;32m'
-Yellow='\e[33m'
+Yellow='\e[93m'
 Blue='\E[1;34m'
 Cyan='\E[1;36m'
+DarkGray='\e[90m'
+Dim='\e[2m'
 Bold=$(tput bold)
 Normal=$(tput sgr0)
 
 
 function resourcesInfo() {
+    echo -e -n "$Dim[Res-Info]"
     USED_SPACE=$(df -H / |  awk '{print $5 }' | sed -e /^Use/d | sed 's/%//' | cut -d "." -f 1)
     SPACE_VERBOSE=$(df -H / |  awk '{print $5 " "$3" of "$2}' | sed -e /^Use/d)
     # I want to perform arithmetic comparison, bash doesn't work with floating points, hence the 'cut' command.
     MEMORY=$(cat /proc/meminfo | grep MemAvailable | awk {'print $2/1024'} | cut -d "." -f 1)
-    PROCESSES=$(ps aux | wc -l)
-    
-    echo -e -n $ColorReset"⇢ [$Bold$Blue Running Processes$ColorReset$Normal $Yellow ◉ $PROCESSES $ColorReset] "
+    LOAD=$(cat /proc/loadavg | awk '{print "~5 min=" $2}')
+
+    echo -e -n $ColorReset"➜ [$Bold$Dim Load Average$ColorReset$Normal$Yellow$Dim $LOAD $ColorReset "
 
     if [[ $MEMORY -lt 2048 ]] ; then
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Free Memory$ColorReset$Normal $Red ◉ $MEMORY $ColorReset MiB] "
+        echo -e -n $ColorReset"➜ $Bold$Dim Free Memory$ColorReset$Normal $Red ◉ $MEMORY$ColorReset$Dim MiB $ColorReset "
     else
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Free Memory$ColorReset$Normal $Green ◉ $MEMORY $ColorReset MiB] "
-    fi
-    
-    if [[ $USED_SPACE -gt 75 ]] ; then
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Disk Usage$ColorReset$Normal $Red ◉ $SPACE_VERBOSE $ColorReset]"
-    else
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Disk Usage$ColorReset$Normal $Green ◉ $SPACE_VERBOSE $ColorReset]"
+        echo -e -n $ColorReset"➜ $Bold$Dim Free Memory$ColorReset$Normal $Green ◉ $MEMORY$ColorReset$Dim MiB $ColorReset "
     fi
 
+    if [[ $USED_SPACE -gt 75 ]] ; then
+        echo -e -n $ColorReset"➜ $Bold$Dim Disk Usage$ColorReset$Normal $Red ◉ $SPACE_VERBOSE $ColorReset]"
+    else
+        echo -e -n $ColorReset"➜ $Bold$Dim Disk Usage$ColorReset$Normal $Green ◉ $SPACE_VERBOSE $ColorReset]"
+    fi
+
+}
+
+function LoggedInUsers () {
+    echo -e -n "$Dim[Users-In]"
+    # PROCESSES=$(ps aux | wc -l)
+    # echo -e -n $ColorReset"➜ [$Bold$Blue Running Processes$ColorReset$Normal $Yellow ◉ $PROCESSES $ColorReset] "
+    # Get logged in users from tty entry:
+    # (NR>2) tells awk to skip two header lines
+    # sort  and  uniq  to remove duplicate users
+    # last sed is to trim/prevent printing whitespaces
+    TTY_USERS=$(w | awk '(NR>2) { print $1 }' | sort | uniq | sed '/^[[:space:]]*$/d')
+    TTY_IP=$(w | awk '(NR>2) { print $3 }' | sort | uniq | sed '/^[[:space:]]*$/d')
+    
+    echo -e -n $ColorReset"➜ [$Bold$Dim$ColorReset$Normal$Blue $TTY_USERS$ColorReset$Dim from $Blue$TTY_IP$ColorReset ]"
 }
 
 function serviceStatus () {
     SERVICE_STATUS=$(systemctl is-active $1)
     IS_RUNNING=$(systemctl show -p SubState --value $1)
-
     if [ "$SERVICE_STATUS" = "active" ] ; then
-    echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset active "
+    echo -e -n $ColorReset"➜ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset$Dim active "
 
         case $IS_RUNNING in
-            "running") echo -e -n "$Green▲$ColorReset running$Normal$ColorReset ]" ;;
-            "dead") echo -e -n "$Red▼$ColorReset dead$ColorReset ]" ;;
+            "running") echo -e -n "$Green▲$ColorReset$Dim running$Normal$ColorReset ]" ;;
+            "dead") echo -e -n "$Red▼$ColorReset$Dim dead$ColorReset ]" ;;
             *) echo -e -n "Error loading service" ;;
         esac
-    
+
     elif [ "$SERVICE_STATUS" = "inactive" ] ; then
-        echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Red ✗ $ColorReset inactive ] "
-    
+        echo -e -n $ColorReset"➜ [$Bold$Blue $1$ColorReset$Normal $Red ✗ $ColorReset inactive ] "
+
     else
-        echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Yellow ● $ColorReset no status! ] " 
+        echo -e -n $ColorReset"➜ [$Bold$Blue $1$ColorReset$Normal $Yellow ● $ColorReset no status! ] "
     fi
 }
 
 
 function sysInfo() {
-    OS=$(lsb_release -si)
-    OS_RELEASE=$(lsb_release -sc)
-    OS_VERSION=$(cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17)
-    KERNEL=$(uname -r)
-    UPTIME=$(uptime -p | sed 's/up//')
-    HOST=$(hostname)
-
-    figlet -w 120 -f slant -k $HOSTNAME
-
-    # echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset enabled "
-
-    echo -e -n $ColorReset"⇢ [$Cyan ★ Uptime$Green$UPTIME$Cyan ★ Kernel $Green $KERNEL$Cyan ★ $OS $Green$OS_RELEASE-$OS_VERSION $Cyan $ColorReset] "
-
+   echo -e -n "$Dim[Sys-Info]"
+   echo -e -n $ColorReset"➜ [$Dim Uptime$Blue$UPTIME$ColorReset$Dim ★ Kernel$Blue $KERNEL$ColorReset$Dim ★ $OS $Blue$OS_RELEASE-$OS_VERSION $ColorReset] "
 }
+
+figlet -w 120 -f slant -k $HOSTNAME
+LoggedInUsers
+echo ""
 sysInfo
 echo ""
-
 resourcesInfo
 echo ""
+echo -e -n "$Dim[Services]"
 serviceStatus docker
 serviceStatus ssh
-echo ""
 echo -e $ColorReset
 
 ## End Print Info ####################
