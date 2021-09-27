@@ -2,8 +2,7 @@ Config files (and potentially other scripts/stuff/junk).
 
 
 
-Examples ./dotfiles/.bashrc.servers
+Examples ./login-info.sh
 
-![bashrcinfo3](https://user-images.githubusercontent.com/35549045/134829747-bd883f85-4097-4305-9518-a9eb6084016a.png)
-![bashrcinfo2](https://user-images.githubusercontent.com/35549045/134829751-6b25b6c6-a0c1-4d03-a376-4bae9d5cb8bd.png)
-![bashinfo](https://user-images.githubusercontent.com/35549045/134829754-e3867dec-71cc-4050-ac7a-643a5361edc8.png)
+![updatedbashrc1](https://user-images.githubusercontent.com/35549045/134848546-5dca07e5-561c-4f5d-b7fe-bda7fb49d6eb.png)
+![updatedbashrc2](https://user-images.githubusercontent.com/35549045/134848548-cadab7db-3ffe-4880-b1f7-f408a6128375.png)
