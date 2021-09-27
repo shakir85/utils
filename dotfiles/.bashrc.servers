@@ -30,9 +30,9 @@ function resourcesInfo() {
     fi
     
     if [[ $USED_SPACE -gt 75 ]] ; then
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Used Disk$ColorReset$Normal $Red ◉ $SPACE_VERBOSE $ColorReset]"
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Disk Usage$ColorReset$Normal $Red ◉ $SPACE_VERBOSE $ColorReset]"
     else
-        echo -e -n $ColorReset"⇢ [$Bold$Blue Used Disk$ColorReset$Normal $Green ◉ $SPACE_VERBOSE $ColorReset]"
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Disk Usage$ColorReset$Normal $Green ◉ $SPACE_VERBOSE $ColorReset]"
     fi
 
 }
@@ -71,7 +71,7 @@ function sysInfo() {
 
     # echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset enabled "
 
-    echo -e -n $ColorReset"⇢ [$Cyan Uptime$Green$UPTIME$Cyan ★ Kernel $Green $KERNEL$Cyan ★ $OS $Green$OS_RELEASE-$OS_VERSION $Cyan $ColorReset] "
+    echo -e -n $ColorReset"⇢ [$Cyan ★ Uptime$Green$UPTIME$Cyan ★ Kernel $Green $KERNEL$Cyan ★ $OS $Green$OS_RELEASE-$OS_VERSION $Cyan $ColorReset] "
 
 }
 sysInfo
