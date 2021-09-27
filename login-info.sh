@@ -6,10 +6,10 @@
 # Usage:
 #   To print system info on login, append this file to your .bashrc.
 # Note:
-#   * You can add any service you'd like to take a quick glance at its status 
+#   * You can add any service you'd like to check its status 
 #     to the 'serviceStatus' function below
-#   * Tested Ubuntu 20.04 only.
-#   * Possib bugs (mainly colors/display bugs).
+#   * Tested on Ubuntu 20.04 only.
+#   * Possible bugs (mainly colors/display bugs).
 # *************************************************************************
 # Resources:
 #   Symbols https://unicode-table.com/en/sets/arrow-symbols/
