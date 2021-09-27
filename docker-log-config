@@ -1,0 +1,22 @@
+#  --config-file [string Daemon configuration file (default "/etc/docker/daemon.json")]
+# for dockerd see >> https://docs.docker.com/engine/reference/commandline/dockerd/
+# for dockerd config see >> https://docs.docker.com/config/containers/logging/configure/
+# max-size and max-file will allow docker to rotate the logs to the specified configs
+# to limit log size:
+# option 1. Modify dockerd file
+cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+# option 2. use '--log-opt' to set log size on run time
+docker run --log-opt max-size=10m --log-opt max-file=5 my-app:latest
+
+# usefule articlce:
+# https://medium.com/@Quigley_Ja/rotating-docker-logs-keeping-your-overlay-folder-small-40cfa2155412
