@@ -1,24 +1,85 @@
+## My Stuff ####################
+################################
 
-# Get your IP on a headless server
-alias myip="curl http://ipecho.net/plain; echo"
+# Old PS1
+# export PS1="\e[1;34m[\e[1;33m\u@\e[1;32m\h\e[1;37m:\w\[\e[1;34m]\e[1;36m\\$ \e[0m"export PS1="\e[1;34m[\e[1;33m\u@\e[1;32m\h\e[1;37m:\w\[\e[1;34m]\e[1;36m\\$ \e[0m"
 
-## TODO
-## Add Git branch status to PS1
-export PS1="\e[1;34m[\e[1;33m\u@\e[1;32m\h\e[1;37m:\w\[\e[1;34m]\e[1;36m\\$ \e[0m"
-# ------------------------
-# Install figlet first!
-# ------------------------
-# Print system info on shell opening
-# add to bash profile
-# tested on Ubuntu on Fedora
-OS=$(lsb_release -si)
-OS_RELEASE=$(lsb_release -sc)
-OS_VERSION=$(cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17)
-KERNEL=$(uname -r)
-UPTIME=$(uptime -p)
-HOST=$(hostname)
-echo -e -n '\E[1;34m'
-figlet -w 120 -f slant -k $HOSTNAME
-echo -e "\E[1;36mUptime:\E[1;32m $UPTIME\E[1;36m, Kernel:\E[1;32m $KERNEL\E[1;36m, $OS \E[1;32m $OS_RELEASE $OS_VERSION \E[1;36m"
-echo -e -n '\E[1;34m'
-echo -e '\E[0m'
+ColorReset='\e[0m'
+Red='\033[0;31m'
+Green='\033[0;32m'
+Yellow='\e[33m'
+Blue='\E[1;34m'
+Cyan='\E[1;36m'
+Bold=$(tput bold)
+Normal=$(tput sgr0)
+
+
+function resourcesInfo() {
+    USED_SPACE=$(df -H / |  awk '{print $5 }' | sed -e /^Use/d | sed 's/%//' | cut -d "." -f 1)
+    SPACE_VERBOSE=$(df -H / |  awk '{print $5 " "$3" of "$2}' | sed -e /^Use/d)
+    # I want to perform arithmetic comparison, bash doesn't work with floating points, hence the 'cut' command.
+    MEMORY=$(cat /proc/meminfo | grep MemAvailable | awk {'print $2/1024'} | cut -d "." -f 1)
+    PROCESSES=$(ps aux | wc -l)
+    
+    echo -e -n $ColorReset"⇢ [$Bold$Blue Running Processes$ColorReset$Normal $Yellow ◉ $PROCESSES $ColorReset] "
+
+    if [[ $MEMORY -lt 2048 ]] ; then
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Free Memory$ColorReset$Normal $Red ◉ $MEMORY $ColorReset MiB] "
+    else
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Free Memory$ColorReset$Normal $Green ◉ $MEMORY $ColorReset MiB] "
+    fi
+    
+    if [[ $USED_SPACE -gt 75 ]] ; then
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Used Disk$ColorReset$Normal $Red ◉ $SPACE_VERBOSE $ColorReset]"
+    else
+        echo -e -n $ColorReset"⇢ [$Bold$Blue Used Disk$ColorReset$Normal $Green ◉ $SPACE_VERBOSE $ColorReset]"
+    fi
+
+}
+
+function serviceStatus () {
+    SERVICE_STATUS=$(systemctl is-active $1)
+    IS_RUNNING=$(systemctl show -p SubState --value $1)
+
+    if [ "$SERVICE_STATUS" = "active" ] ; then
+    echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset active "
+
+        case $IS_RUNNING in
+            "running") echo -e -n "$Green▲$ColorReset running$Normal$ColorReset ]" ;;
+            "dead") echo -e -n "$Red▼$ColorReset dead$ColorReset ]" ;;
+            *) echo -e -n "Error loading service" ;;
+        esac
+    
+    elif [ "$SERVICE_STATUS" = "inactive" ] ; then
+        echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Red ✗ $ColorReset inactive ] "
+    
+    else
+        echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Yellow ● $ColorReset no status! ] " 
+    fi
+}
+
+
+function sysInfo() {
+    OS=$(lsb_release -si)
+    OS_RELEASE=$(lsb_release -sc)
+    OS_VERSION=$(cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17)
+    KERNEL=$(uname -r)
+    UPTIME=$(uptime -p | sed 's/up//')
+    HOST=$(hostname)
+
+    figlet -w 120 -f slant -k $HOSTNAME
+
+    # echo -e -n $ColorReset"⇢ [$Bold$Blue $1$ColorReset$Normal $Green ✓$ColorReset enabled "
+
+    echo -e -n $ColorReset"⇢ [$Cyan Uptime$Green$UPTIME$Cyan ★ Kernel $Green $KERNEL$Cyan ★ $OS $Green$OS_RELEASE-$OS_VERSION $Cyan $ColorReset] "
+
+}
+sysInfo
+echo ""
+
+resourcesInfo
+echo ""
+serviceStatus docker
+serviceStatus ssh
+echo ""
+echo -e $ColorReset
