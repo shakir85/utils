@@ -10,6 +10,7 @@
 ifconfig eth0 192.168.1.119 netmask 255.255.255.0 up
 
 # set dns server to pihole
+# or use `resolvectl` instead (recommended)
 echo "nameserver 192.168.1.xx" > /etc/resolv.conf
 
 # set default gateway
