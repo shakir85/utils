@@ -1,12 +1,11 @@
 #!/bin/bash
 
-echo "######################################"
-echo "## I don't like Canonical's garbage! #"
-echo "######################################"
+echo "Removing snapd"
+sleep 2
 
 # Stop snap deamon
 systemctl stop snapd
-
+sleep 2
 # snapd package removal
 apt-mark hold snapd
 apt autoremove --purge -y snapd gnome-software-plugin-snap
