@@ -38,3 +38,17 @@ def create_app():
 
 if __name__ == "__main__":
     uvicorn.run("app:create_app", host="0.0.0.0", port=8000, root_path=settings.base_path)
+    
+    
+----------------------------
+
+Another way to proxy to containers:
+
+upstream backend {
+    server container1;
+}
+server {
+    location ~ ^/some_url/(.*)$ {
+        proxy_pass http://backend/$1;
+    }
+}
