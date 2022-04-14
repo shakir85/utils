@@ -1,0 +1,40 @@
+Fix double root path append when sending request to fastapi proxied through nginx
+Source: https://github.com/tiangolo/fastapi/issues/2872#issuecomment-910376068
+
+Sample nginx block:
+------------------
+server {
+    listen       443 ssl;
+    server_name  localhost;
+    ssl_certificate <YOUR_CERT_LOC>;
+    ssl_certificate_key <YOUR_KEY_LOC>;
+
+    location /app {
+        rewrite ^/app/(.*)$ /$1 break;
+        proxy_pass http://<APP_SERVICE_NAME>:<APP_LOCAL_PORT>/app;
+    }
+}
+
+Sample FastApi:
+---------------
+from pydantic import BaseSettings
+
+class Settings(BaseSettings):
+    app_dir: Path = Path(__file__).parents[1]
+    base_path: str = "/app"
+
+
+settings = Settings()
+
+
+def create_app():
+   app = FastAPI(
+        title="MY_APP",
+        servers=[{"url": settings.base_path}],
+        root_path=settings.base_path,
+    )
+    return app
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:create_app", host="0.0.0.0", port=8000, root_path=settings.base_path)
