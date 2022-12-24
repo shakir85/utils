@@ -1,0 +1,9 @@
+"
+" Spaces/indentation settings for YAML files
+"
+set sw=2             " Space width
+set nu               " Show line numbers
+set showmode         " Show current mode
+set ts=2             " Tab spaces
+set et               " Converts tabs into an equivalent number of spaces (abb. 'expandtab')
+set ai               " Auto indent. Copy the indentation from the previous line when starting a new line.
