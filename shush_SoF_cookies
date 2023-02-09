@@ -3,3 +3,4 @@ Add this to uBlock Origin filters to stop annoying cookies message on all SoF pl
 stackexchange.com##.js-consent-banner
 stackoverflow.com##.js-consent-banner
 superuser.com##.js-consent-banner
+askubuntu.com##.js-consent-banner
