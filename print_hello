@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This is for a blog post demo. Do not delete.
 print_hello() {
   echo "This is the boring hello world message"
 }
