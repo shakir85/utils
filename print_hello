@@ -1,0 +1,5 @@
+#!/bin/bash
+
+print_hello() {
+  echo "This is the boring hello world message"
+}
