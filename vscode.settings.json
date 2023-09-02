@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": "/home/shakir/repos/homelab/infra",
+			"name": "Infra"
+		},
+		{
+			"path": "/home/shakir/repos/homelab/apps",
+			"name": "Apps"
+		},
+		{
+			"path": "/home/shakir/repos/homelab/cicd",
+			"name": "CI/CD"
+		},
+		{
+			"path": "/home/shakir/repos/homelab/templates",
+			"name": "Templates"
+		},
+	],
+	"settings": {
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"workbench.editor.highlightModifiedTabs": true,
+		"explorer.sortOrder": "type",
+		"editor.cursorBlinking": "smooth",
+		"window.title": "${folderPath} ${separator} ${activeEditorShort}",
+		"breadcrumbs.enabled": true,
+		"editor.fontFamily": "Fira Code",
+	}
+}
