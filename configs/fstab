@@ -1,0 +1,5 @@
+# Template with additional options
+# $IP:$NAS_Vol $Local_Vol nfs nouser,rsize=8192,wsize=8192,atime,auto,rw,dev,exec,suid 0 0" >> /etc/fstab
+
+# Default
+10.10.50.38:/volume1/debian12	/mnt/debian12	nfs	defaults	0	0

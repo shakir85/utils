@@ -1,20 +1,23 @@
 #!/bin/bash
 
-# *************************************************************************
-# What is this?
-#   Script to print useful system information.
+# System Information Display Script
+#
+# Requirements:
+#   - This script requires 'tput' and 'figlet' to be installed.
+#
 # Usage:
-#   To print system info on login, append this file to your .bashrc.
-# Note:
-#   * You can add any service you'd like to check its status 
-#     to the 'serviceStatus' function below
-#   * Tested on Ubuntu 20.04 only.
-#   * Possible bugs (mainly colors/display bugs).
-# *************************************************************************
-# Resources:
-#   Symbols https://unicode-table.com/en/sets/arrow-symbols/
-#   Bash colors: https://misc.flogisoft.com/bash/tip_colors_and_formatting
-# *************************************************************************
+#   1. Append the content of this file to your '.bashrc' file.
+#   2. Next time you log in, useful system information will be displayed.
+#
+# Customization Hint:
+#   - You can customize this script by adding any service or daemon you'd like
+#     to print its status in the login message. Modify the 'serviceStatus' function
+#     below to include additional services.
+#
+# Disclaimer:
+#   - This script was developed and tested on Ubuntu 20.04 with Bash version 5.0-6ubuntu1.2.
+#   - Note that possible bugs may arise, especially related to terminal message colors.
+#
 OS=$(lsb_release -si)
 OS_RELEASE=$(lsb_release -sc)
 OS_VERSION=$(grep "VERSION_ID" < /etc/os-release | cut -c 13-17)
