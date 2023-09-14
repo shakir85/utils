@@ -1,0 +1,55 @@
+{
+	"folders": [
+		{
+			"path": "homelab/infra",
+			"name": "Infra"
+		},
+		{
+			"path": "homelab/apps",
+			"name": "Apps"
+		},
+		{
+			"path": "rcepos/homelab/cicd",
+			"name": "CI/CD"
+		},
+		{
+			"path": "homelab/templates",
+			"name": "Templates"
+		},
+		{
+			"path": "homelab/playground",
+			"name": "Playground"
+		},
+		{
+			"path": "homelab/tf_mods",
+			"name": "PxmxMods"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*playbook*.yml": "ansible",
+			"*init.yml": "yaml",
+			"*Dockerfile*": "docker"
+		},
+		// Workbench
+		"workbench.editor.highlightModifiedTabs": true,
+		"workbench.list.smoothScrolling": true,
+		"workbench.tree.renderIndentGuides": "always",
+		"workbench.tree.indent": 14,
+		"workbench.colorCustomizations": {
+			"tree.indentGuidesStroke": "#516270"
+		},
+		// Editor
+		"editor.fontFamily": "Fira Code",
+		"editor.formatOnSave": true,
+		"editor.formatOnPaste": true,
+		"editor.cursorBlinking": "smooth",
+		"ansible.python.interpreterPath": "/bin/python3",
+		// Other
+		"aws.telemetry": false,
+		"redhat.telemetry.enabled": false,
+		"explorer.sortOrder": "type",
+		"window.title": "${folderPath} ${separator} ${activeEditorShort}",
+		"breadcrumbs.enabled": true,
+	}
+}
