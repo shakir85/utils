@@ -1,27 +1,27 @@
 {
 	"folders": [
 		{
-			"path": "homelab/infra",
+			"path": "/home/shakir/repos/homelab/infra",
 			"name": "Infra"
 		},
 		{
-			"path": "homelab/apps",
+			"path": "/home/shakir/repos/homelab/apps",
 			"name": "Apps"
 		},
 		{
-			"path": "rcepos/homelab/cicd",
+			"path": "/home/shakir/repos/homelab/cicd",
 			"name": "CI/CD"
 		},
 		{
-			"path": "homelab/templates",
+			"path": "/home/shakir/repos/homelab/templates",
 			"name": "Templates"
 		},
 		{
-			"path": "homelab/playground",
+			"path": "/home/shakir/repos/homelab/playground",
 			"name": "Playground"
 		},
 		{
-			"path": "homelab/tf_mods",
+			"path": "/home/shakir/repos/homelab/tf_mods",
 			"name": "PxmxMods"
 		}
 	],
