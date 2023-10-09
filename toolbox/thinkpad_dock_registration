@@ -1,9 +1,15 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1770579
-# to authorized docking station:
+# To authorized docking station:
 # http://manpages.ubuntu.com/manpages/jammy/en/man1/boltctl.1.html
-# 1. Get UUID:
+# ****************************************************************
+# Make sure to disconnect from the docking station first!
+******************************************************************
+#
+# 1. Get the docking station's UUID:
 boltctl list
-# 2. Remove thunderbolt/dockstation
-boltctl forget <uuid>
+#
+# 2. Remove thunderbolt/dock-station
+boltctl forget $DOCKING_STATION_UUID
+#
 # 3. Enroll & make it permanent
-boltctl enroll <uuid> --policy auto
+boltctl enroll $DOCKING_STATION_UUID --policy auto
